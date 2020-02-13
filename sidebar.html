@@ -138,6 +138,7 @@
         
         const colors = pallete.colors;
         const colorizedWidgets = [];
+        widgets = widgets.sort(compareWidgets)
         for (let i = 0; i < widgets.length; i++) {
             const color = colors[i % colors.length];
             const colorized = {
@@ -151,6 +152,23 @@
             }
             colorizedWidgets.push(colorized);
         }
-        await miro.board.widgets.update(widgets);
+        await miro.board.widgets.update(colorizedWidgets);
+    }
+    
+    function compareWidgets(a, b) {
+        const pointA = aproximatePoint(a);
+        const pointB = aproximatePoint(b);
+        const columnDiff = pointA.column - pointB.column;
+        if (columnDiff === 0) {
+            return pointA.row - pointB.row;
+        }
+        return columnDiff;
+    }
+    
+    function aproximatePoint(widget) {
+        return {
+            column: parseInt(widget.bounds.x / 50),
+            row: parseInt(widget.bound.y / 50)
+        }
     }
 </script>
