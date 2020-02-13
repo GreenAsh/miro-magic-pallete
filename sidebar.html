@@ -140,15 +140,16 @@
         const colorizedWidgets = [];
         for (let i = 0; i < widgets.length; i++) {
             const color = colors[i % colors.length];
-            const widget = {
-                id: widgets[i].id
+            const colorized = {
+                id: widgets[i].id,
+                style: {}
             };
             if (widgets[i].type === 'STICKER') {
-                widget.stickerBackgroundColor = color;
+                colorized.style.stickerBackgroundColor = color;
             } else {
-                widget.backgroundColor = color;
+                colorized.style.backgroundColor = color;
             }
-            colorizedWidgets.push(widget);
+            colorizedWidgets.push(colorized);
         }
         await miro.board.widgets.update(widgets);
     }
