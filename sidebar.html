@@ -126,7 +126,7 @@
         const randomize = document.getElementById('randomize');
         randomize.onclick = async () => {
             const widgets = await miro.board.selection.get();
-            const pallete = window.getPalletes();
+            const pallete = window.getPalletes()[0];
             await colorize(widgets, pallete)
         }
     }
