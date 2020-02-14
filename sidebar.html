@@ -173,29 +173,22 @@
         const children = container.children;
         let index = 0;
         palette.colors.forEach((color) => {
-            let element = index < children.length ? children[index++] : colorElement(color);
+            let element = index < children.length ? children[index++] : colorElement(container);
             element.style.backgroundColor = color;
-            
-            if (index >= children.length) {
-                container.appendChild(element);
-            }
         })
-        const random = index < children.length ? children[index++] : colorElement('#cccccc');
+        const random = index < children.length ? children[index++] : colorElement(container);
         random.style.backgroundColor = '#cccccc';
         random.onclick = async () => {
             const widgets = await miro.board.selection.get();
             await randomizeColors(widgets, pallete)
         }
-        if (index >= children.length) {
-            container.appendChild(random);
-        }
     }
     
-    function colorElement(color) {
+    function colorElement(container) {
         const element = document.createElement('div');
         element.className = 'color-item';
-        element.style.backgroundColor = color;
         element.onclick = defaultElementClick;
+        container.appendChild(element);
         return element;
     }
     
