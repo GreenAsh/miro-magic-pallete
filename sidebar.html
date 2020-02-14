@@ -50,6 +50,7 @@
             /* identical to box height, or 143% */
             align-items: center;
             letter-spacing: 0.00333333px;
+            text-decoration: none;
 
             /* Basic/Blue */
 
@@ -71,7 +72,7 @@
       text-align: center;
     }
     .stat-list .stat-list__table {
-        margin-bottom: 5px;
+        margin-bottom: 26px;
         text-align: center;
     }
     .stat-list .stat-list__title {
@@ -102,6 +103,7 @@
       margin: 10px 0 10px 0;
       font-weight: normal;
       padding: 0 24px 0 24px;
+      text-align: left;
     }
     .stat-list .stat-list__item .stat-list__item-name {
       text-transform: capitalize;
@@ -120,7 +122,7 @@
             border: 1px solid rgba(5, 0, 56, 0.1);
             box-sizing: border-box;
             border-radius: 18px;
-            margin: 0px 1px;
+            margin: 0px 6px;
         }
     </style>
 </head>
@@ -161,26 +163,34 @@
     });
     
     async function initialize(){
-        const regenerateLink = document.getElementById('regenerate');
-        regenerateLink.onclick = async () => {
-            await randomPalette()
-        }
         await randomPalette()
     }
     
     async function randomPalette(){
         const containers = document.getElementsByClassName('stat-list__table');
         for (let i = 0; i < containers.length; i++) {
+            await buildHeader(containers[i], i)
+        }
+    }
+    
+    async function buildHeader(container, index) {
+        const headerContainer = document.createElement('div');
+        headerContainer.className = 'stat-list__item';
+        headerContainer.innerHTML = `
+                     <span class="stat-list__item-name">Palette ${index}</span>
+                     <span class="stat-list__item-value"><a id="reg_${index}" href="#">Regenerate</a></span>`;
+        headerContainer.getElementsByTagName('a')[0].onclick = async () => {
             const paletteIndex = parseInt(Math.random() * 500)
             const palette = window.getPalletes()[paletteIndex];
-            await buildPallete(containers[i], palette)
-        }
+            await buildPallete(container, palette);
+        };
+        container.appendChild(headerContainer);
     }
     
     async function buildPallete(container, palette) {
         const children = container.children;
         const childrenLength = container.childElementCount;
-        let index = 0;
+        let index = 1;
         palette.colors.forEach((color) => {
             let element = index < childrenLength ? children[index++] : colorElement(container);
             element.style.backgroundColor = color;
