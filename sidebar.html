@@ -98,7 +98,7 @@
             height: 36px;
             left: 24px;
             top: 80px;
-            display-inlin: block;
+            display: inline-block;
             border: 1px solid rgba(5, 0, 56, 0.1);
             box-sizing: border-box;
             border-radius: 18px;
@@ -154,7 +154,7 @@
     function colorElement(color) {
         const element = document.createElement('div');
         element.className = 'color-item';
-        element.style.backgroundColor = 'color';
+        element.style.backgroundColor = color;
         element.onclick = defaultElementClick;
         return element;
     }
