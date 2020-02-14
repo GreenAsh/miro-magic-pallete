@@ -170,14 +170,14 @@
     
     async function buildPallete(palette) {
         const container = document.getElementsByClassName('stat-list__table')[0]
-        const children = document.getElementsByClassName('stat-list__table')[0].children;
+        const children = container.children;
         let index = 0;
         palette.colors.forEach((color) => {
             let element = index < children.length ? children[index++] : colorElement(color);
             element.style.backgroundColor = color;
             
-            if (index > children.length) {
-                container.appendChild(random);
+            if (index >= children.length) {
+                container.appendChild(element);
             }
         })
         const random = index < children.length ? children[index++] : colorElement('#cccccc');
@@ -186,7 +186,7 @@
             const widgets = await miro.board.selection.get();
             await randomizeColors(widgets, pallete)
         }
-        if (index > children.length) {
+        if (index >= children.length) {
             container.appendChild(random);
         }
     }
