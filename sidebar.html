@@ -181,7 +181,7 @@
         random.style.backgroundColor = '#cccccc';
         random.onclick = async () => {
             const widgets = await miro.board.selection.get();
-            await randomizeColors(widgets, pallete)
+            await randomizeColors(widgets, palette)
         }
         for (let i = childrenLength - 1; i >= index; i--) {
             container.removeChild(children[i])
