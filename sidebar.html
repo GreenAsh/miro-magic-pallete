@@ -37,6 +37,26 @@
     .stat-list {
       width: 340px;
     }
+        .stat-list a {
+            display: block;
+            width: 123px;
+            height: 20px;
+
+            /* Paragraph_M */
+
+            font-family: Open Sans;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 20px;
+            /* identical to box height, or 143% */
+            align-items: center;
+            letter-spacing: 0.00333333px;
+
+            /* Basic/Blue */
+
+            color: #4262FF;
+        }
     .stat-list .stat-list__header {
       font-weight: bold;
       height: 44px;
@@ -53,7 +73,7 @@
       text-align: center;
     }
     .stat-list .stat-list__table {
-        margin-bottom: 40px;
+        margin-bottom: 5px;
     }
     .stat-list .stat-list__title {
       display: -ms-flexbox;
@@ -123,6 +143,7 @@
                     <span class="stat-list__item-value">10</span>
                 </div> -->
             </div>
+            <a id="regenerate" href="#">Regenerate palette</a>
         </div>
     </div>
 </body>
@@ -134,21 +155,40 @@
     });
     
     async function initialize(){
-        const pallete = window.getPalletes()[0];
-        await buildPallete(pallete)
+        const regenerateLink = document.getElementById('regenerate');
+        regenerateLink.onclick( async () => {
+            await randomPalette()
+        })
+        await randomPalette()
     }
     
-    async function buildPallete(pallete) {
+    async function randomPalette(){
+        const paletteIndex = parseInt(Math.random() * 500)
+        const palette = window.getPalletes()[paletteIndex];
+        await buildPallete(palette)
+    }
+    
+    async function buildPallete(palette) {
         const container = document.getElementsByClassName('stat-list__table')[0]
-        pallete.colors.forEach((color) => {
-            container.appendChild(colorElement(color));
+        const children = document.getElementsByClassName('stat-list__table')[0].children;
+        let index = 0;
+        palette.colors.forEach((color) => {
+            let element = index < children.length ? children[index++] : colorElement(color);
+            element.style.backgroundColor = color;
+            
+            if (index > children.length) {
+                container.appendChild(random);
+            }
         })
-        const random = colorElement('#cccccc');
+        const random = index < children.length ? children[index++] : colorElement('#cccccc');
+        random.style.backgroundColor = '#cccccc';
         random.onclick = async () => {
             const widgets = await miro.board.selection.get();
             await randomizeColors(widgets, pallete)
         }
-        container.appendChild(random);
+        if (index > children.length) {
+            container.appendChild(random);
+        }
     }
     
     function colorElement(color) {
