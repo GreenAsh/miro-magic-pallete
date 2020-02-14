@@ -156,9 +156,9 @@
     
     async function initialize(){
         const regenerateLink = document.getElementById('regenerate');
-        regenerateLink.onclick( async () => {
+        regenerateLink.onclick = async () => {
             await randomPalette()
-        })
+        }
         await randomPalette()
     }
     
