@@ -147,7 +147,7 @@
         const random = colorElement('#cccccc');
         random.onclick = async () => {
             const widgets = await miro.board.selection.get();
-            await colorize(widgets, pallete)
+            await randomizeColors(widgets, pallete)
         }
         container.appendChild(random);
     }
@@ -161,10 +161,33 @@
     }
     
     async function defaultElementClick(e){
-        console.log(e);
+        const color = e.target.style.backgroundColor
+        const widgets = await miro.board.selection.get()
+        await fill(widgets, color)
     }
     
-    async function colorize(widgets, pallete) {
+    async function fill(widgets, color) {
+        if (!widgets || !widgets.length) {
+            return;
+        }
+        
+        const colorizedWidgets = []
+        for (let i = 0; i < widgets.length; i++) {
+            const colorized = {
+                id: widgets[i].id,
+                style: {}
+            };
+            if (widgets[i].type === 'STICKER') {
+                colorized.style.stickerBackgroundColor = color;
+            } else {
+                colorized.style.backgroundColor = color;
+            }
+            colorizedWidgets.push(colorized);
+        }
+        await miro.board.widgets.update(colorizedWidgets);
+    }
+    
+    async function randomizeColors(widgets, pallete) {
         if (!widgets || !widgets.length) {
             return;
         }
