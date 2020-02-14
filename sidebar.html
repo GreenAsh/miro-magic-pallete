@@ -39,7 +39,6 @@
     }
         .stat-list a {
             display: block;
-            width: 123px;
             height: 20px;
 
             /* Paragraph_M */
@@ -123,6 +122,19 @@
             box-sizing: border-box;
             border-radius: 18px;
             margin: 0px 6px;
+            cursor: pointer;
+        }
+        .random-color-item {
+            width: 36px;
+            height: 36px;
+            left: 24px;
+            top: 80px;
+            display: inline-block;
+            box-sizing: border-box;
+            border-radius: 18px;
+            margin: 0px 6px;
+            background-image: url('/miro-magic-pallete/random-color.svg');
+            cursor: pointer;
         }
     </style>
 </head>
@@ -150,8 +162,6 @@
             </div>
             <div class="stat-list__table">
             </div>
-            <br />
-            <a id="regenerate" href="#">Regenerate</a>
         </div>
     </div>
 </body>
@@ -168,8 +178,11 @@
     
     async function randomPalette(){
         const containers = document.getElementsByClassName('stat-list__table');
-        for (let i = 0; i < containers.length; i++) {
+        for (let i = 0; i < containers.length; i++) {            
+            const paletteIndex = parseInt(Math.random() * 500)
+            const palette = window.getPalletes()[paletteIndex];
             await buildHeader(containers[i], i)
+            await buildPallete(containers[i], palette);
         }
     }
     
@@ -193,9 +206,11 @@
         let index = 1;
         palette.colors.forEach((color) => {
             let element = index < childrenLength ? children[index++] : colorElement(container);
+            element.className = 'color-item'
             element.style.backgroundColor = color;
         })
         const random = index < childrenLength ? children[index++] : colorElement(container);
+        random.className = 'random-color-item';
         random.style.backgroundColor = '#cccccc';
         random.onclick = async () => {
             const widgets = await miro.board.selection.get();
