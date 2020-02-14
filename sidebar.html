@@ -143,6 +143,12 @@
                     <span class="stat-list__item-value">10</span>
                 </div> -->
             </div>
+            <div class="stat-list__table">
+            </div>
+            <div class="stat-list__table">
+            </div>
+            <div class="stat-list__table">
+            </div>
             <a id="regenerate" href="#">Regenerate palette</a>
         </div>
     </div>
@@ -163,13 +169,15 @@
     }
     
     async function randomPalette(){
-        const paletteIndex = parseInt(Math.random() * 500)
-        const palette = window.getPalletes()[paletteIndex];
-        await buildPallete(palette)
+        const containers = document.getElementsByClassName('stat-list__table');
+        for (let i = 0; i < containers.length; i++) {
+            const paletteIndex = parseInt(Math.random() * 500)
+            const palette = window.getPalletes()[paletteIndex];
+            await buildPallete(containers[i], palette)
+        }
     }
     
-    async function buildPallete(palette) {
-        const container = document.getElementsByClassName('stat-list__table')[0]
+    async function buildPallete(container, palette) {
         const children = container.children;
         const childrenLength = container.childElementCount;
         let index = 0;
