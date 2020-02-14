@@ -1,6 +1,6 @@
 window.getPalletes = function() {
     return [{
         name: "Test Pallete",
-        colors: ["#ffffff", "#000000" ]
+        colors: ["#003049", "#D62828", "#F77F00", "#FCBF49", "#EAE2B7" ]
     }];
 }
